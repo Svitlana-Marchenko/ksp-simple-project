@@ -1,5 +1,6 @@
 plugins {
-    kotlin("jvm") version "2.0.20"
+    kotlin("jvm") version "2.1.0"
+    id("com.google.devtools.ksp") version "2.1.0-1.0.29"
 }
 
 group = "ua.marchenko"
@@ -10,6 +11,8 @@ repositories {
 }
 
 dependencies {
+    implementation(project(":processor"))
+    ksp(project(":processor"))
     testImplementation(kotlin("test"))
 }
 
@@ -18,4 +21,13 @@ tasks.test {
 }
 kotlin {
     jvmToolchain(21)
+}
+
+kotlin {
+    sourceSets.main {
+        kotlin.srcDir("build/generated/ksp/main/kotlin")
+    }
+    sourceSets.test {
+        kotlin.srcDir("build/generated/ksp/test/kotlin")
+    }
 }
